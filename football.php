@@ -8,7 +8,10 @@ $dotenv = Dotenv::createImmutable(__DIR__);
 $dotenv->load();
 
 $footballApp = new FootballApp();
-$matches = $footballApp->getNextMatch('SCHEDULED');
+
+$teamID = $argv[1] ?? 67; // Default to Newcastle United FC ID if no team inputted
+
+$matches = $footballApp->getNextMatch('SCHEDULED', $teamID);
 
 // Get the first match (next scheduled match)
 $nextMatch = $matches['matches'][0];

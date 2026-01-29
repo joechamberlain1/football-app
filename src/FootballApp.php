@@ -6,8 +6,8 @@ use GuzzleHttp\Client;
 
 class FootballApp
 {
-    private const BASE_URL = 'https://api.football-data.org/v4/';
-    private const TEAM_ID = 67; // Newcastle United FC ID
+    private string $apiEndpoint = 'https://api.football-data.org/v4/';
+    private int $teamID;
     private string $apiKey;
 
     private Client $client;
@@ -17,9 +17,10 @@ class FootballApp
         $this->client = new Client();
     }
 
-    public function getNextMatch(string $status = 'SCHEDULED', string $teamID = ''): array
+    public function getNextMatch(string $status = 'SCHEDULED', int $teamID = 0): array
     {
-        $url = self::BASE_URL . 'teams/' . $teamID . '/matches';
+        $teamID = $teamID ?: $this->teamID;
+        $url = $this->apiEndpoint . 'teams/' . $teamID . '/matches';
         
         try {
             $response = $this->client->get($url, [
