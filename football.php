@@ -9,7 +9,16 @@ $dotenv->load();
 
 $footballApp = new FootballApp();
 
-$teamID = $argv[1] ?? 67; // Default to Newcastle United FC ID if no team inputted
+$allTeams = $footballApp->getAllTeams('PL'); 
+
+$teamName = $argv[1] ?? "Newcastle United FC"; // Default to Newcastle United FC ID if no team inputted
+echo "\nSearching for: '$teamName'\n";
+
+if(isset($allTeams[$teamName])) {
+    $teamID = $allTeams[$teamName];
+} else {
+    die("Team not found: $teamName\n");
+}
 
 $matches = $footballApp->getNextMatch('SCHEDULED', $teamID);
 

@@ -17,25 +17,41 @@ class FootballApp
         $this->client = new Client();
     }
 
-    public function getNextMatch(string $status = 'SCHEDULED', int $teamID = 0): array
+    public function getNextMatch(string $status = 'SCHEDULED', int $teamID = 0, string $teamName = ""): array
     {
         $teamID = $teamID ?: $this->teamID;
         $url = $this->apiEndpoint . 'teams/' . $teamID . '/matches';
-        
-        try {
-            $response = $this->client->get($url, [
-                'headers' => [
-                    'X-Auth-Token' => $this->apiKey
-                ],
-                'query' => [
-                    'status' => $status
-                ]
-            ]);
-            
-            return json_decode($response->getBody()->getContents(), true);
-        } catch (\Exception $e) {
-            throw new \Exception('Failed to fetch matches: ' . $e->getMessage());
-        }
+
+        $response = $this->client->get($url, [
+            'headers' => [
+                'X-Auth-Token' => $this->apiKey
+            ],
+            'query' => [
+                'status' => $status
+            ]
+        ]);
+
+        return json_decode($response->getBody()->getContents(), true);
+
+    }
+
+    public function getAllTeams($competitionCode = 'PL')
+    {
+        $url = $this->apiEndpoint . 'competitions/' . $competitionCode . '/teams';
+
+        $response = $this->client->get($url, [
+            'headers' => [
+                'X-Auth-Token' => $this->apiKey
+            ]
+        ]);
+
+        $data = json_decode($response->getBody()->getContents(), true);
+
+        $teams = [];
+            foreach($data["teams"] as $team){
+                $teams[$team["name"]] = $team["id"];
+            }
+            return $teams;
     }
 
 }
