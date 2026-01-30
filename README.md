@@ -114,19 +114,6 @@ The free tier of football-data.org API has limitations:
 
 If you receive a `403 Forbidden` error, the team or competition may not be included in your API tier.
 
-## Project Structure
-
-```
-football-app/
-├── src/
-│   └── FootballApp.php    # Main application class
-├── vendor/                 # Composer dependencies
-├── football.php           # CLI entry point
-├── composer.json          # Composer configuration
-├── .env                   # API key (not in git)
-└── README.md             # This file
-```
-
 ## Troubleshooting
 
 ### "Team not found" error
